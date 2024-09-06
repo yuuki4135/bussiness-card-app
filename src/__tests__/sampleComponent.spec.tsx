@@ -1,7 +1,8 @@
-import { App } from "../App";
-import React from "react";
-import '@testing-library/jest-dom'
-import { render, screen } from "@testing-library/react";
+import * as React from 'react';
+import App from "../App";
+import '@testing-library/jest-dom';
+import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe("Title Test", () => {
   it("タイトルがHello Jestであること", () => {
