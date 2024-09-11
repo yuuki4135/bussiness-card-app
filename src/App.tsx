@@ -1,15 +1,23 @@
 import * as React from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
+import { Card } from './components/pages/Card'
 import './App.css'
 
 const App = () => {
-  const [count, setCount] = React.useState(0)
-
   return (
     <>
-      <h1 data-testid="title">Hello Jest</h1>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <h1>Business Card App</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to='/card/hello'>Card</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path='/card/:id' element={<Card />} />
+      </Routes>
     </>
   )
 }
