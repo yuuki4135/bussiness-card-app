@@ -10,7 +10,7 @@ const App = () => {
       <nav>
         <ul>
           <li>
-            <Link to='/card/hello'>Card</Link>
+            <Link to='/card/sample_id'>Card</Link>
           </li>
         </ul>
       </nav>
