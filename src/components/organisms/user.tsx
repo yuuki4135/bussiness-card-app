@@ -15,20 +15,26 @@ type UserProps = {
 export const User = (props: UserProps) => {
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState<Database["public"]["Tables"]["user"] | null>(null);
+  const [skills, setSkills] = React.useState<Database["public"]["Tables"]["skills"] | null>(null);
   const { id } = props;
 
   React.useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase
         .from("user")
-        .select("*")
+        .select(`*, user_skill(
+          skills(*)
+        )`)
         .eq("user_id", id)
         .single();
 
+      if (error) {
+        console.error(error);
+      }
       if (!error) {
         setUser(data);
+        setSkills(data?.user_skill);
         setLoading(false);
-        console.log(data);
       }
     };
 
@@ -45,7 +51,9 @@ export const User = (props: UserProps) => {
           <p>{user?.despriction}</p>
           <p>GitHub: {user?.github_id}</p>
           <p>Qiita: {user?.qiita_id}</p>
-          <Skill id={id} />
+          <p>
+            <Skill skills={skills} />
+          </p>
         </>
       )}
     </>
