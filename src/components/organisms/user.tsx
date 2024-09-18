@@ -1,12 +1,6 @@
 import * as React from 'react' 
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "../../schema";
 import { Skill } from './skil';
-
-const supabase = createClient<Database>(
-  process.env.VITE_SUPABASE_URL as string,
-  process.env.VITE_SUPABASE_KEY as string
-);
+import { fetchUserData } from '../../model/user';
 
 type UserProps = {
   id: string;
