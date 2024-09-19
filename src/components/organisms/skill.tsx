@@ -1,10 +1,7 @@
 import * as React from 'react';
+import { userSkills, skill } from '../../types/userProfile'
 
-type SkillProps = {
-  skills: {skills: string}[]; // Assuming the skills array contains strings, replace `string` with the appropriate type if needed
-};
-
-export const Skill = (props: SkillProps) => {
+export const Skill = (props: userSkills) => {
   const { skills } = props;
 
   React.useEffect(() => {
@@ -13,9 +10,8 @@ export const Skill = (props: SkillProps) => {
 
   return (
     <>
-      <h2>Skill</h2>
       <ul>
-        {skills.map((skill) => (
+        {skills.map((skill: skill) => (
           <li key={skill.skills.id}>{skill.skills.name}</li>
         ))}
       </ul>

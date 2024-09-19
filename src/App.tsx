@@ -16,7 +16,7 @@ const App = () => {
       </nav>
 
       <Routes>
-        <Route path='/card/:id' element={<Card />} />
+        <Route path='/card/:user_id' element={<Card />} />
       </Routes>
     </>
   )
