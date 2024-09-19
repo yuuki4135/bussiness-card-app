@@ -16,7 +16,7 @@ type UserProps = {
   user_skill: { skills: string }[];
 };
 
-class User {
+export class User {
   constructor(
     public user_id: string,
     public name: string,
@@ -25,29 +25,36 @@ class User {
     public qiita_id: string,
     public x_id: string,
     public user_skill: { skills: string }[]
-  ) {}
-}
-
-export async function fetchUserData(id: string): Promise<UserProps> {
-  const { data, error } = await supabase
-    .from("user")
-    .select(`*, user_skill(
-      skills(*)
-    )`)
-    .eq("user_id", id)
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Failed to fetch user data");
+  ) {
+    this.user_id = user_id;
+    this.name = name;
+    this.description = description;
+    this.github_id = github_id;
+    this.qiita_id = qiita_id;
+    this.x_id = x_id;
+    this.user_skill = user_skill;
   }
-  return new User(
-    data.user_id,
-    data.name,
-    data.description,
-    data.github_id ?? '',
-    data.qiita_id ?? '', // cspell: disable-line
-    data.x_id ?? '',
-    data.user_skill
-  );
+  
+  async find(user_id: string): Promise<User> {
+    const { data, error } = await supabase
+      .from("user")
+      .select(`*, user_skill(
+        skills(*)
+      )`)
+      .eq("user_id", user_id)
+      .single();
+    if (error) {
+      console.error(error);
+      throw new Error("Failed to fetch user data");
+    }
+    return new User(
+      data.user_id,
+      data.name,
+      data.description,
+      data.github_id ?? "",
+      data.qiita_id ?? "",
+      data.x_id ?? "",
+      data.user_skill
+    );
+  }
 }
