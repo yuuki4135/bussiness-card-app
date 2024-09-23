@@ -10,13 +10,11 @@ export const Skill = (props: {skills: userSkills[]}) => {
 
   return (
     <>
-      <ul>
-        {skills.map((skill: userSkills) => (
-          <>
-            <p>{skill.skills?.id} : {skill.skills?.name}</p>
-          </>
-        ))}
-      </ul>
+      {skills.map((skill: userSkills) => (
+        <div key={skill?.skills?.id}>
+          {skill?.skills?.name}
+        </div>
+      ))}
     </>
   );
 };

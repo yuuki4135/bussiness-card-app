@@ -1,47 +1,46 @@
 import * as React from 'react'
-import { useUsers } from '../../hooks/useUsers';
-import { Skill } from './skill'
+import { UserProfile, userSkills } from '../../types/userProfile'
+import parse from 'html-react-parser';
+import DOMPurify from "dompurify";
+import { Heading, CardFooter, ButtonGroup, IconButton, Text } from '@chakra-ui/react'
+import { Skill } from '../organisms/skill'
+import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { SiQiita } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 type UserInfoProps = {
-  user_id: string;
+  users: UserProfile,
+  skills: userSkills[]
 };
 
 export const UserInfo = (props: UserInfoProps) => {
-  const { user_id } = props;
-  const { loading, users, skills, findUser } = useUsers();
-
-  React.useEffect(() => {
-    findUser(user_id);
-  }, [user_id]);
+  const { users, skills } = props;
 
   return (
     <>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <h2>{users?.name}</h2>
-          <p>{users?.description}</p>
-          <a href={users?.github_url}>
-            <p>
-              GitHub: {users?.github_id}
-            </p>
-          </a>
-          <a href={users?.qiita_url}>
-            <p>
-              Qiita: {users?.qiita_id}
-            </p>
-          </a>
-          <a href={users?.x_url}>
-            <p>
-              x: {users?.x_id}
-            </p>
-          </a>
-          <p>
-            <Skill skills={skills!} />
-          </p>
-        </>
-      )}
+      <Heading size='md' noOfLines={1}>自己紹介</Heading>
+        <Text fontSize='sm'>{parse(DOMPurify.sanitize(
+            users?.description || '', {
+              ALLOWED_TAGS: ['img'],
+              ALLOWED_ATTR: ['href', 'target', 'src']
+            }
+          ))}</Text>
+      <Heading as='h2' size='sm' noOfLines={1}>好きな技術</Heading>
+      <Skill skills={skills}/>
+      <CardFooter justifyContent={'center'}>
+        <ButtonGroup spacing='2'>
+          <Link to={users?.github_url || ''}>
+            <IconButton aria-label='Github' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaGithub />}/>
+          </Link>
+          <Link to={users?.qiita_url || ''}>
+            <IconButton aria-label='X' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaXTwitter />}/>
+          </Link>
+          <Link to={users?.x_url || ''}>
+            <IconButton aria-label='Qiita' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<SiQiita />}/>
+          </Link>
+        </ButtonGroup>
+      </CardFooter>
     </>
   )
 }

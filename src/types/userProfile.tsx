@@ -8,7 +8,7 @@ export type UserProfile = {
   github_url: string;
   qiita_url: string;
   x_url: string;
-};
+} | undefined
 
 export type skill = {
   id: number;
