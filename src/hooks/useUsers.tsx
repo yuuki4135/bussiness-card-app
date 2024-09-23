@@ -11,8 +11,7 @@ const supabase = createClient<Database>(
 export const useUsers = () => {
   const [loading, setLoading] = React.useState(true);
   const [users, setUsers] = React.useState<UserProfile>();
-  const [skills, setSkills] = React.useState<userSkills>([]);
-  const [error, setError] = React.useState(null);
+  const [skills, setSkills] = React.useState<userSkills[]>();
 
   const findUser = async (user_id: string) => {
     const { data, error } = await supabase
@@ -38,6 +37,7 @@ export const useUsers = () => {
         x_url: x_url(data.x_id ?? '')
       });
       setLoading(false);
+      console.log(data.user_skill)
       setSkills(data.user_skill);
     }
   }
@@ -54,5 +54,5 @@ export const useUsers = () => {
     return `https://x.com/${id}`
   }
 
-  return { loading, users, skills, error, findUser };
+  return { loading, users, skills, findUser };
 };

@@ -13,8 +13,8 @@ export type UserProfile = {
 export type skill = {
   id: number;
   name: string;
-}
+} | null
 
 export type userSkills = {
-  skills: skill[];
-}[]
+  skills: skill
+}

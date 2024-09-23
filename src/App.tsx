@@ -1,22 +1,17 @@
 import * as React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
-import { Card } from './components/pages/Card'
+import { Profile } from './components/pages/profile'
 import './App.css'
 
 const App = () => {
   return (
     <>
-      <h1>Business Card App</h1>
       <nav>
-        <ul>
-          <li>
-            <Link to='/card/sample_id'>Card</Link>
-          </li>
-        </ul>
+        <Link to='/card/sample_id'>Card</Link>
       </nav>
 
       <Routes>
-        <Route path='/card/:user_id' element={<Card />} />
+        <Route path='/card/:user_id' element={<Profile />} />
       </Routes>
     </>
   )

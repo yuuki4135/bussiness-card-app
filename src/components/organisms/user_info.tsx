@@ -38,7 +38,7 @@ export const UserInfo = (props: UserInfoProps) => {
             </p>
           </a>
           <p>
-            <Skill skills={skills} />
+            <Skill skills={skills!} />
           </p>
         </>
       )}
