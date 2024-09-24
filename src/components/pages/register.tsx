@@ -2,10 +2,22 @@ import React, { useEffect } from 'react'
 import { Heading, Card, CardBody, CardFooter, Input, Text, Select, Button } from '@chakra-ui/react'
 import { useUsers } from '../../hooks/useUsers'
 import { skill } from "../../types/userProfile";
+import { useForm, SubmitHandler } from "react-hook-form"
+
+type Inputs = {
+  example: string
+  exampleRequired: string
+}
 
 export const Register = () => {
-
   const { skillKinds, loading, selectSkillKinds } = useUsers();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>()
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
 
   useEffect(()=>{
     selectSkillKinds();
@@ -34,6 +46,12 @@ export const Register = () => {
                     )
                   })}
                 </Select>
+                <Text>GithubID</Text>
+                <Input size='sm' />
+                <Text>QiitaID</Text>
+                <Input size='sm' />
+                <Text>XID</Text>
+                <Input size='sm' />
               </CardBody>
               <CardFooter>
                 <Button
