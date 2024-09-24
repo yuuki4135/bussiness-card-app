@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "../schema";
-import { UserProfile, userSkills } from "../types/userProfile";
+import { UserProfile, userSkills, skill } from "../types/userProfile";
 
 const supabase = createClient<Database>(
   process.env.VITE_SUPABASE_URL as string,
@@ -12,6 +12,7 @@ export const useUsers = () => {
   const [loading, setLoading] = React.useState(true);
   const [users, setUsers] = React.useState<UserProfile>();
   const [skills, setSkills] = React.useState<userSkills[]>();
+  const [skillKinds, setSkillKinds] = React.useState<skill[]>();
 
   const findUser = async (user_id: string) => {
     const { data, error } = await supabase
@@ -42,6 +43,19 @@ export const useUsers = () => {
     }
   }
 
+  const selectSkillKinds = async () => {
+    const { data, error } = await supabase
+      .from("skills")
+      .select(`*`);
+    if (error) {
+      console.error(error);
+      throw new Error("Failed to fetch skill data");
+    } else {
+      setLoading(false);
+      setSkillKinds(data)
+    }
+  }
+
   const githubURL = (id: string) => {
     return `https://github.com/${id}`
   }
@@ -54,5 +68,5 @@ export const useUsers = () => {
     return `https://x.com/${id}`
   }
 
-  return { loading, users, skills, findUser };
+  return { loading, users, skills, skillKinds, findUser, selectSkillKinds };
 };
