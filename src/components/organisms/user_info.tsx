@@ -10,18 +10,18 @@ import { SiQiita } from "react-icons/si";
 import { Link } from "react-router-dom";
 
 type UserInfoProps = {
-  users: UserProfile,
+  user: UserProfile,
   skills: userSkills[]
 };
 
 export const UserInfo = (props: UserInfoProps) => {
-  const { users, skills } = props;
+  const { user, skills } = props;
 
   return (
     <>
       <Heading size='md' noOfLines={1}>自己紹介</Heading>
         <Text fontSize='sm'>{parse(DOMPurify.sanitize(
-            users?.description || '', {
+            user?.description || '', {
               ALLOWED_TAGS: ['img'],
               ALLOWED_ATTR: ['href', 'target', 'src']
             }
@@ -30,13 +30,13 @@ export const UserInfo = (props: UserInfoProps) => {
       <Skill skills={skills}/>
       <CardFooter justifyContent={'center'}>
         <ButtonGroup spacing='2'>
-          <Link to={users?.github_url || ''}>
+          <Link to={user?.github_url || ''}>
             <IconButton aria-label='Github' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaGithub />}/>
           </Link>
-          <Link to={users?.qiita_url || ''}>
+          <Link to={user?.qiita_url || ''}>
             <IconButton aria-label='X' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaXTwitter />}/>
           </Link>
-          <Link to={users?.x_url || ''}>
+          <Link to={user?.x_url || ''}>
             <IconButton aria-label='Qiita' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<SiQiita />}/>
           </Link>
         </ButtonGroup>

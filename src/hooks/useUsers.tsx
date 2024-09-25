@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "../schema";
-import { UserProfile, userSkills, skill } from "../types/userProfile";
+import { UserProfile, userSkills, skill, UserCreateInput, UserSkillCreateInput } from "../types/userProfile";
 
 const supabase = createClient<Database>(
   process.env.VITE_SUPABASE_URL as string,
@@ -10,9 +10,23 @@ const supabase = createClient<Database>(
 
 export const useUsers = () => {
   const [loading, setLoading] = React.useState(true);
-  const [users, setUsers] = React.useState<UserProfile>();
+  const [userIds, setUserIds] = React.useState<string[]>();
+  const [user, setUser] = React.useState<UserProfile>();
   const [skills, setSkills] = React.useState<userSkills[]>();
   const [skillKinds, setSkillKinds] = React.useState<skill[]>();
+
+  const findAllUserIds = async () => {
+    const { data, error } = await supabase
+      .from("user")
+      .select(`*`);
+    if (error) {
+      console.error(error);
+      throw new Error("Failed to fetch user data");
+    } else {
+      setUserIds(data.map((user) => user.user_id));
+      setLoading(false);
+    }
+  }
 
   const findUser = async (user_id: string) => {
     const { data, error } = await supabase
@@ -26,7 +40,7 @@ export const useUsers = () => {
       console.error(error);
       throw new Error("Failed to fetch user data");
     } else {
-      setUsers({
+      setUser({
         user_id: data.user_id,
         name: data.name,
         description: data.description,
@@ -38,7 +52,6 @@ export const useUsers = () => {
         x_url: x_url(data.x_id ?? '')
       });
       setLoading(false);
-      console.log(data.user_skill)
       setSkills(data.user_skill);
     }
   }
@@ -56,6 +69,22 @@ export const useUsers = () => {
     }
   }
 
+  const createUser = async (user: UserCreateInput) => {
+    const { data, error } = await supabase
+      .from("user")
+      .insert([user])
+      .select(`*`);
+    return { data, error };
+  }
+
+  const createSkill = async (userSkill: UserSkillCreateInput) => {
+    const { data, error } = await supabase
+      .from("user_skill")
+      .insert([userSkill])
+      .select(`*`);
+    return { data, error };
+  }
+
   const githubURL = (id: string) => {
     return `https://github.com/${id}`
   }
@@ -68,5 +97,5 @@ export const useUsers = () => {
     return `https://x.com/${id}`
   }
 
-  return { loading, users, skills, skillKinds, findUser, selectSkillKinds };
+  return { loading, user, userIds, skills, skillKinds, findUser, selectSkillKinds, createUser, createSkill, findAllUserIds};
 };

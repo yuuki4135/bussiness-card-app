@@ -18,3 +18,17 @@ export type skill = {
 export type userSkills = {
   skills: skill
 }
+
+export type UserCreateInput = {
+  user_id: string;
+  name: string;
+  description: string;
+  github_id: string;
+  qiita_id: string;
+  x_id: string;
+}
+
+export type UserSkillCreateInput = {
+  user_id: string;
+  skill_id: number;
+}
