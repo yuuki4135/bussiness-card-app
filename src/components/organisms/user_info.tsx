@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { UserProfile, userSkills } from '../../types/userProfile'
 import parse from 'html-react-parser';
-import DOMPurify from "dompurify";
+import * as DOMPurify from "dompurify";
 import { Heading, CardFooter, ButtonGroup, IconButton, Text } from '@chakra-ui/react'
 import { Skill } from '../organisms/skill'
 import { FaGithub } from "react-icons/fa";
@@ -20,7 +20,7 @@ export const UserInfo = (props: UserInfoProps) => {
   return (
     <>
       <Heading size='md' noOfLines={1}>自己紹介</Heading>
-        <Text fontSize='sm'>{parse(DOMPurify.sanitize(
+        <Text fontSize='sm' data-testid='description'>{parse(DOMPurify.sanitize(
             user?.description || '', {
               ALLOWED_TAGS: ['img'],
               ALLOWED_ATTR: ['href', 'target', 'src']
@@ -31,13 +31,13 @@ export const UserInfo = (props: UserInfoProps) => {
       <CardFooter justifyContent={'center'}>
         <ButtonGroup spacing='2'>
           <Link to={user?.github_url || ''}>
-            <IconButton aria-label='Github' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaGithub />}/>
-          </Link>
-          <Link to={user?.qiita_url || ''}>
-            <IconButton aria-label='X' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaXTwitter />}/>
+            <IconButton data-testid='github-icon' aria-label='Github' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaGithub />}/>
           </Link>
           <Link to={user?.x_url || ''}>
-            <IconButton aria-label='Qiita' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<SiQiita />}/>
+            <IconButton data-testid='x-icon' aria-label='X' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<FaXTwitter />}/>
+          </Link>
+          <Link to={user?.qiita_url || ''}>
+            <IconButton data-testid='qiita-icon' aria-label='Qiita' isRound={true} variant='solid' colorScheme='gray' size='lg' icon={<SiQiita />}/>
           </Link>
         </ButtonGroup>
       </CardFooter>

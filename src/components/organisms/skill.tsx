@@ -11,7 +11,7 @@ export const Skill = (props: {skills: userSkills[]}) => {
   return (
     <>
       {skills.map((skill: userSkills) => (
-        <div key={skill?.skills?.id}>
+        <div key={skill?.skills?.id} data-testid='skill'>
           {skill?.skills?.name}
         </div>
       ))}
