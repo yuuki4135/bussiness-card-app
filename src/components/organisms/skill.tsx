@@ -4,10 +4,6 @@ import { userSkills } from '../../types/userProfile'
 export const Skill = (props: {skills: userSkills[]}) => {
   const { skills } = props;
 
-  React.useEffect(() => {
-    console.log(props);
-  }, [props]);
-
   return (
     <>
       {skills.map((skill: userSkills) => (

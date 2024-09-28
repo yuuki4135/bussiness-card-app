@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import * as React from 'react'
 import { Heading, Card, CardBody, CardFooter, Input, Textarea, Select, Button, Text, Flex } from '@chakra-ui/react'
 import { useUsers } from '../../hooks/useUsers'
 import type { skill } from "../../types/userProfile";
@@ -54,7 +54,7 @@ export const Register = () => {
     }
   }
 
-  useEffect(()=>{
+  React.useEffect(()=>{
     selectSkillKinds();
   }, [])
 
@@ -64,72 +64,79 @@ export const Register = () => {
           <div>loading</div>
         ) : (
           <>
-            <Heading>名刺新規作成</Heading>
+            <Heading data-testid='title'>名刺新規作成</Heading>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Card>
                 <CardBody>
-                  <FormControl isRequired isInvalid={!!errors.user_id}>
+                  <FormControl isInvalid={!!errors.user_id}>
                     <FormLabel>ID(※好きな英単語)</FormLabel>
                     <Input size='sm' 
-                        {...register("user_id", {
-                        required: "IDの入力は必須です",
-                        pattern: {
-                          value: /^[a-zA-Z]+$/,
-                          message: "英単語文字列のみを入力してください"
-                        }
-                        })}
+                      {...register("user_id", {
+                      required: "IDの入力は必須です",
+                      pattern: {
+                        value: /^[a-zA-Z]+$/,
+                        message: "英単語文字列のみを入力してください"
+                      }
+                      })}
+                      data-testid='user_id'
                     />
-                    <FormErrorMessage>{errors.user_id && errors.user_id.message}</FormErrorMessage>
+                    <FormErrorMessage data-testid='user_id_error'>{errors.user_id && errors.user_id.message}</FormErrorMessage>
                   </FormControl>
-                  <FormControl isRequired isInvalid={!!errors.name}>
+                  <FormControl isInvalid={!!errors.name}>
                     <FormLabel>お名前</FormLabel>
                     <Input size='sm'
                       {...register("name", {
                         required: "お名前の入力は必須です"
                       })}
+                      data-testid='name'
                     />
-                    <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+                    <FormErrorMessage data-testid='name_error'>{errors.name && errors.name.message}</FormErrorMessage>
                   </FormControl>
-                  <FormControl isRequired isInvalid={!!errors.description}>
+                  <FormControl isInvalid={!!errors.description}>
                     <FormLabel>自己紹介</FormLabel>
                     <Textarea size='sm'
                       {...register("description", {
                         required: "自己紹介の入力は必須です"
                       })}
+                      data-testid='description'
                     />
-                    <FormErrorMessage>{errors.description && errors.description.message}</FormErrorMessage>
+                    <FormErrorMessage data-testid='description_error'>{errors.description && errors.description.message}</FormErrorMessage>
                   </FormControl>
-                  <FormControl isRequired isInvalid={!!errors.skill_id}>
+                  <FormControl isInvalid={!!errors.skill_id}>
                     <FormLabel>好きな技術</FormLabel>
                     <Select placeholder='Select option' {
                       ...register("skill_id", {
                         required: "好きな技術の入力は必須です"
-                      })
-                    }>
+                      })}
+                      data-testid='skill_id'
+                      >
                       { skillKinds?.map((skill: skill)=>{
                         return (
                           <option value={skill?.id} key={skill?.id}>{skill?.name}</option>
                         )
                       })}
                     </Select>
-                    <FormErrorMessage>{errors.skill_id && errors.skill_id.message}</FormErrorMessage>
+                    <FormErrorMessage data-testid='skill_id_error'>{errors.skill_id && errors.skill_id.message}</FormErrorMessage>
                   </FormControl>
                   <FormControl>
                     <FormLabel>GithubID</FormLabel>
                     <Input size='sm'
                       {...register("github_id")}
+                      data-testid='github_id'
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>QiitaID</FormLabel>
                     <Input size='sm'
                       {...register("qiita_id")}
+                      data-testid='qiita_id'
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>XID</FormLabel>
                     <Input size='sm'
                       {...register("x_id")}
+                      data-testid='x_id'
                     />
                   </FormControl>
                 </CardBody>
@@ -143,6 +150,7 @@ export const Register = () => {
                       border='2px'
                       borderColor='blue.500'
                       isLoading={isSubmitting} type='submit'
+                      data-testid='submit'
                       >登録
                     </Button>
                     {dataBaseError && <Text color='red.500' fontSize='sm' sx={{

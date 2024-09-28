@@ -25,13 +25,13 @@ export const Top = () => {
     <>
       {loading ? ( <div>loading</div> ) : (
         <>
-          <Text fontSize='2xl'>デジタル名刺アプリ</Text>
+          <Text fontSize='2xl' data-testid="title">デジタル名刺アプリ</Text>
           <Card>
             <CardBody>
               <FormControl isRequired isInvalid={!!error}>
                 <FormLabel>ID</FormLabel>
-                <Input type='text' value={id} onChange={(e) => setId(e.target.value)} />
-                <FormErrorMessage>{error}</FormErrorMessage>
+                <Input type='text' value={id} onChange={(e) => setId(e.target.value)}  data-testid='user_id_input' />
+                <FormErrorMessage data-testid='error'>{error}</FormErrorMessage>
               </FormControl>
             </CardBody>
             <CardFooter>
@@ -44,11 +44,12 @@ export const Top = () => {
                 borderColor='blue.500'
                 backgroundColor='blue.500'
                 onClick={() => pageChange()}
+                data-testid="submit"
               >名刺を見る</Button>
             </CardFooter>
           </Card>
           <Link to='/card/register'>
-            <Text fontSize='sm' sx={{marginTop: '10px'}}>
+            <Text fontSize='sm' sx={{marginTop: '10px'}} data-testid='register-button'>
               新規登録はこちら
             </Text>
           </Link>

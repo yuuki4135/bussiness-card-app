@@ -18,5 +18,5 @@
     "types": ["node", "jest", "@testing-library/jest-dom"],
     "allowImportingTsExtensions": true
   },
-  "include": ["src"],
+  "include": ["src"]
 }
