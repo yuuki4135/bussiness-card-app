@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { UserProfile, userSkills } from '../../types/userProfile'
 import parse from 'html-react-parser';
-import DOMPurify from "dompurify";
+import * as DOMPurify from 'isomorphic-dompurify';
 import { Heading, CardFooter, ButtonGroup, IconButton, Text } from '@chakra-ui/react'
 import { Skill } from '../organisms/skill'
 import { FaGithub } from "react-icons/fa";
