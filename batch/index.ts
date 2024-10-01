@@ -7,18 +7,19 @@ const supabase = createClient<Database>(
 );
 
 const deleteTheDayBeforeCreateData = async () => {
-  const yesterday = new Date(new Date().setDate(new Date().getDate() - 1))
-  const yesterdayJst = new Date(yesterday.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }));
+  const today = new Date();
+  const todayJst = new Date(today.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }));
+  todayJst.setDate(todayJst.getDate() - 1);
+  const yesterdayJst = new Date(todayJst);
   yesterdayJst.setHours(0, 0, 0, 0)
-
-  const today = new Date()
-  const todayJst = new Date(yesterday.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }));
-  today.setHours(0, 0, 0, 0)
+  const yesterdayJstEnd = new Date(todayJst);
+  yesterdayJstEnd.setHours(23, 59, 59, 999)
+  
   const { data, error } = await supabase
     .from("user")
     .delete()
     .gte('created_at', yesterdayJst.toISOString())
-    .lt('created_at', todayJst.toISOString())
+    .lt('created_at', yesterdayJstEnd.toISOString())
     .select()
   if (error) {
     console.error(error);
